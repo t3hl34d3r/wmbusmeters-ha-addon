@@ -1,6 +1,6 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM AS build
-
+# ARG BUILD_FROM
+# FROM $BUILD_FROM AS build
+FROM alpine AS build
 ENV LANG C.UTF-8
 
 RUN apk add --no-cache alpine-sdk gcc linux-headers libxml2-dev cmake libusb-dev bash samurai
@@ -35,7 +35,7 @@ RUN cmake -B build -G Ninja \
 WORKDIR /rtl_reset
 RUN make
 
-FROM $BUILD_FROM AS scratch
+FROM python:3.13.0-alpine AS scratch
 ENV QEMU_EXECVE=1
 RUN apk add --no-cache mosquitto-clients libstdc++ curl libusb libxml2 netcat-openbsd nginx
 
