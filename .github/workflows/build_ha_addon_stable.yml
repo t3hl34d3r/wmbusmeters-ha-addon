@@ -52,8 +52,7 @@ jobs:
         with:
           args: |
             --${{ matrix.arch }} \
-            --target wmbusmeters-ha-addon \
-            --version ${{ github.event.client_payload.ver }}
+            --target wmbusmeters-ha-addon
 
   update-repo:
     needs: [prepare, build]
