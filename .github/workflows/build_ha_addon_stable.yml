@@ -22,11 +22,11 @@ jobs:
       #     sed -i "s|\s\{4,\}\"version\".*|    \"version\": \"${{ github.event.client_payload.ver }}\"\,|g" wmbusmeters-ha-addon/config.json
       #     sed -i "1s|^|## ${{ github.event.client_payload.ver }} \n- Updated to version [${{ github.event.client_payload.ver }}](https://github.com/wmbusmeters/wmbusmeters/blob/master/CHANGES)\n|" wmbusmeters-ha-addon/CHANGELOG.md
 
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ha-addon_artifact-${{ github.event.client_payload.ver }}
-      #     path: ${{ github.workspace }}
-      #     retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ha-addon_artifact-${{ github.event.client_payload.ver }}
+          path: ${{ github.workspace }}
+          retention-days: 1
 
   build:
     needs: prepare
@@ -49,7 +49,7 @@ jobs:
 
       - name: Get dockerfile
         run: cat wmbusmeters-ha-addon/Dockerfile
-        
+
       - name: Build ${{ matrix.addon }} ${{ matrix.arch }} HA add-on
         uses: home-assistant/builder@master
         with:
