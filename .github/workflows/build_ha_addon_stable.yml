@@ -52,7 +52,8 @@ jobs:
         with:
           args: |
             --${{ matrix.arch }} \
-            --target wmbusmeters-ha-addon
+            --target wmbusmeters-ha-addon \
+            --version 1.17
 
   update-repo:
     needs: [prepare, build]
