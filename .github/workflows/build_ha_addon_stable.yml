@@ -3,6 +3,7 @@ name: Build HA addon stable
 on:
   repository_dispatch:
     types: [build_ha_stable]
+  workflow_dispatch
 
 concurrency:
   group: ha-addon-build
