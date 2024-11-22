@@ -15,18 +15,18 @@ jobs:
         with:
           token: '${{ secrets.HA_PAT }}'
 
-      - name: Update README and set version in config.json
-        run: |
-          rsync -a --delete wmbusmeters-ha-addon-edge/ wmbusmeters-ha-addon/ --exclude CHANGELOG.md
-          sed -i 's/\[edge\] //g; s/-edge//g' wmbusmeters-ha-addon/config.json
-          sed -i "s|\s\{4,\}\"version\".*|    \"version\": \"${{ github.event.client_payload.ver }}\"\,|g" wmbusmeters-ha-addon/config.json
-          sed -i "1s|^|## ${{ github.event.client_payload.ver }} \n- Updated to version [${{ github.event.client_payload.ver }}](https://github.com/wmbusmeters/wmbusmeters/blob/master/CHANGES)\n|" wmbusmeters-ha-addon/CHANGELOG.md
+      # - name: Update README and set version in config.json
+      #   run: |
+      #     rsync -a --delete wmbusmeters-ha-addon-edge/ wmbusmeters-ha-addon/ --exclude CHANGELOG.md
+      #     sed -i 's/\[edge\] //g; s/-edge//g' wmbusmeters-ha-addon/config.json
+      #     sed -i "s|\s\{4,\}\"version\".*|    \"version\": \"${{ github.event.client_payload.ver }}\"\,|g" wmbusmeters-ha-addon/config.json
+      #     sed -i "1s|^|## ${{ github.event.client_payload.ver }} \n- Updated to version [${{ github.event.client_payload.ver }}](https://github.com/wmbusmeters/wmbusmeters/blob/master/CHANGES)\n|" wmbusmeters-ha-addon/CHANGELOG.md
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ha-addon_artifact-${{ github.event.client_payload.ver }}
-          path: ${{ github.workspace }}
-          retention-days: 1
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ha-addon_artifact-${{ github.event.client_payload.ver }}
+      #     path: ${{ github.workspace }}
+      #     retention-days: 1
 
   build:
     needs: prepare
@@ -47,6 +47,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PAT }}
 
+      - name: Get dockerfile
+        run: cat wmbusmeters-ha-addon/Dockerfile
+        
       - name: Build ${{ matrix.addon }} ${{ matrix.arch }} HA add-on
         uses: home-assistant/builder@master
         with:
