@@ -8,7 +8,7 @@ concurrency:
 
 jobs:
   prepare:
-    runs-on: c
+    runs-on: self-hosted
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
