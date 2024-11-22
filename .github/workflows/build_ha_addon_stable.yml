@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   prepare:
-    runs-on: ubuntu-latest
+    runs-on: c
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
 
   build:
     needs: prepare
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
     strategy:
       matrix:
@@ -59,7 +59,7 @@ jobs:
 
   update-repo:
     needs: [prepare, build]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
